@@ -3,6 +3,15 @@ import base58
 import ecdsa
 import bech32
 
+class AddressSet:
+
+    def __init__(self, priv,wif):
+        self.priv = priv
+        self.wif = wif
+        self.adrs = []    # creates a new empty list for each dog
+    def add_adr(self, adr):
+        self.adrs.append(adr)        
+
 def generateSetAddresses(private):
     length = 32
     private_key2=private
@@ -48,6 +57,10 @@ def generateSetAddresses(private):
     hrp = 'bc'
     bechaddress = bech32.encode(hrp, witver, witprog)
 
-    mytupleAdresses = (WIF.decode('ASCII'), compressed_p2pkh_address.decode('ASCII'), p2sh_address.decode('ASCII'),bechaddress)
-    return mytupleAdresses
+    #mytupleAdresses = (WIF.decode('ASCII'), compressed_p2pkh_address.decode('ASCII'), p2sh_address.decode('ASCII'),bechaddress)
+    myAddres=AddressSet(private,WIF.decode('ASCII'))
+    myAddres.add_adr(compressed_p2pkh_address.decode('ASCII'))
+    myAddres.add_adr(p2sh_address.decode('ASCII'))
+    myAddres.add_adr(bechaddress)
+    return myAddres
        
