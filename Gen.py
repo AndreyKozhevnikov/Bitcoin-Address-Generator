@@ -22,6 +22,8 @@ def getbytes(bits):
             byte = (byte << 1) | bit
         yield byte
 
+    
+
 def generate_bitcoin_address():
 
     # str_of_key = '9a1c78a507689f6f54b847ad1cef1e614ee23f1e'
@@ -29,8 +31,9 @@ def generate_bitcoin_address():
     # bb= hashlib.new('ripemd160', bytes.fromhex(tt)).hexdigest()
     # Generate private key
     private_key = os.urandom(32)
-    private_key2=72090970136851954874045001246842798852073771335057509966434671426544306327206
-    length = math.ceil(math.log(private_key2, 256))
+    private_key2=5
+    #length = math.ceil(math.log(private_key2, 256))
+    length = 32
     res = int.to_bytes(private_key2, length=length, byteorder='big', signed=False)
     
     private_key=res
