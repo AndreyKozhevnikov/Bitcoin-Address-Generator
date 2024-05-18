@@ -4,13 +4,13 @@ Generate public Bitcoind addresses from private keys.
 
 ### How to use
 
-res2=generateSetAddressesFromString('test')
+res2=generateSetAddressesFromString('test')  
 
-#priv'9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
-#wif'L2ZovMyTxxQVJmMtfQemgVcB5YmiEDapDwsvX6RqvuWibgUNRiHz'
-#'19eA3hUfKRt7aZymavdQFXg5EZ6KCVKxr8'
-#'3PEaV1m4nGi3yTKnzzmqjFTkxzrcFpier5'
-#'bc1qtmrl9526rusw4dnavrcfal72tz6ram5lqzutru'
+#priv'9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'  
+#wif'L2ZovMyTxxQVJmMtfQemgVcB5YmiEDapDwsvX6RqvuWibgUNRiHz'  
+#'19eA3hUfKRt7aZymavdQFXg5EZ6KCVKxr8'  
+#'3PEaV1m4nGi3yTKnzzmqjFTkxzrcFpier5'  
+#'bc1qtmrl9526rusw4dnavrcfal72tz6ram5lqzutru'  
 
 
 ### Related projects
