@@ -10,16 +10,29 @@ class AddressSet:
         self.wif = wif
         self.adrs = []    # creates a new empty list for each dog
     def add_adr(self, adr):
-        self.adrs.append(adr)        
+        self.adrs.append(adr)
+def generateSetAddressesFromString(st):
+    mybytes=str.encode(st)
+    sha256a = SHA256.new(mybytes).digest()
 
-def generateSetAddresses(private):
-    length = 32
-    private_key2=private
-    privateBytes = int.to_bytes(private_key2, length=length, byteorder='big', signed=False)
+    test="".join(map(chr, sha256a))
+    
+    return generateSetAddressesFromBytes(sha256a)           
+def generateSetAddressesFromHex(hex):
+    privateBytes=bytes.fromhex(hex)
+    return generateSetAddressesFromBytes(privateBytes)
+def generateSetAddressesFromInt(intValue):
+    privateBytes = int.to_bytes(intValue, length=32, byteorder='big', signed=False)
+    return generateSetAddressesFromBytes(privateBytes)
+def generateSetAddressesFromBytes(privateBytes):
     private_key=privateBytes
     fullkey = '80' + private_key.hex()+'01'
+    #fullkey = '80' + 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'+'01'
     sha256a = SHA256.new(bytes.fromhex(fullkey)).hexdigest()
     sha256b = SHA256.new(bytes.fromhex(sha256a)).hexdigest()
+
+    toDel=sha256b[:8]
+
     WIF = base58.b58encode(bytes.fromhex(fullkey + sha256b[:8]))
 
 # Get public key
@@ -32,6 +45,13 @@ def generateSetAddresses(private):
 # Get compressed public key
     compressed_public_key = '02' if y % 2 == 0 else '03'
     compressed_public_key += x.to_bytes(32, 'big').hex()
+
+    # Get P2PKH address
+    hash160 = RIPEMD160.new()
+    hash160.update(SHA256.new(bytes.fromhex(public_key)).digest())
+    public_key_hash = '00' + hash160.hexdigest()
+    checksum = SHA256.new(SHA256.new(bytes.fromhex(public_key_hash)).digest()).hexdigest()[:8]
+    p2pkh_address = base58.b58encode(bytes.fromhex(public_key_hash + checksum))
 
     # Get compressed P2PKH address +
     hash160 = RIPEMD160.new()
@@ -58,9 +78,14 @@ def generateSetAddresses(private):
     bechaddress = bech32.encode(hrp, witver, witprog)
 
     #mytupleAdresses = (WIF.decode('ASCII'), compressed_p2pkh_address.decode('ASCII'), p2sh_address.decode('ASCII'),bechaddress)
-    myAddres=AddressSet(private,WIF.decode('ASCII'))
+    myAddres=AddressSet(private_key.hex(),WIF.decode('ASCII'))
     myAddres.add_adr(compressed_p2pkh_address.decode('ASCII'))
+    #myAddres.add_adr(p2pkh_address.decode('ASCII'))
     myAddres.add_adr(p2sh_address.decode('ASCII'))
     myAddres.add_adr(bechaddress)
     return myAddres
-       
+
+#generateSetAddressesFromHex('5Kb8kLf9zgWQnogidDA76MzPL6TsZZY36hWXMssSzNydYXYB9KF')
+res=generateSetAddressesFromString('enter credit long demand tortoise harsh frame path rifle news then trigger')
+vl=36893488147419103228-1
+res=generateSetAddressesFromInt(vl)
